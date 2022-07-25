@@ -1,0 +1,19 @@
+{% extends "layout.html" %} {% block content %}
+
+<h2>Index</h2>
+
+Terve Olga!
+
+<table>
+{% for dep in deps %}
+<tr>
+    <td>
+    <a href="/{{dep}}">dep name is {{dep}}</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<br>
+<p></p>
+{% endblock %}

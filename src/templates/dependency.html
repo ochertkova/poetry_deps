@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h2>Dependency</h2>
+
+<table>
+  <tr>
+      <td>
+        Name: {{dep_to_render['name']}}
+      </td>
+  </tr>
+  <tr>
+      <td>
+        Package description: {{dep_to_render['description']}}
+      </td>
+  </tr>  
+  <tr>
+    <td>
+      Dependancies: 
+      {% for d in dep_to_render['deps'] %}
+      <tr>
+        <td>
+        {{d.name}}
+        
+        </td>
+      </tr>
+      {% endfor %}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Optional dependancies:
+      {% for d in dep_to_render['optional_deps'] %}
+      <tr>
+        <td>
+        {{d}}
+        </td>
+      </tr>
+      {% endfor %}
+
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Reverse dependancies: {{dep_to_render['rev_deps']}}
+    </td>
+  </tr>
+</table>
+
+{% endblock %}
