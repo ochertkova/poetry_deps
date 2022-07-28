@@ -13,7 +13,9 @@ def get_pack_list(text_sample):
         return parse_packages(file.readlines())
 
 def get_test_data():
-    return list(map(parse_package, get_pack_list(text_sample)))
+    retval = list(map(parse_package, get_pack_list(text_sample)))
+    print("Got test data")
+    return retval
 
 def parse_packages(lines):
     pack_list_str = []
@@ -34,7 +36,6 @@ def parse_packages(lines):
     return pack_list_str
 
 def parse_package(pack_str):
-    print(pack_str)
     pack_lines = pack_str.splitlines()
     pack_dict = {}
     line_number = 0
@@ -54,17 +55,45 @@ def parse_package(pack_str):
         except:
             break
         line_number += 1
-
-    print("set deps")
-    print(line_number)
-    print(pack_lines[line_number])
     
     if pack_lines[line_number] == "[package.dependencies]":
-        print("set deps")
-        pack_dict["deps"] = [{"name":"shtoto"}]
+        pack_dict["deps"] = []
+        line_number += 1
+
+        while line_number < len(pack_lines):
+            line = pack_lines[line_number]
+            if line == "[package.extras]":
+                break
+            (key,value) = re.split(r'\s=\s',line.strip(),maxsplit = 1) #Split and unpack on regex expression
+            dep_dict = {'name':key}
+            if value.startswith('{'):
+                # {version = ">=0.9", optional = true, markers = "extra == \"filecache\""}
+                key_values = value[1:-1].split(', ')
+                for item in key_values:
+                    (k,v) = re.split(r'\s=\s',item.strip(),maxsplit = 1)
+                    if k == "optional": #  Value is a boolean
+                        v = v.strip().lower() == "true" #returns True
+                    dep_dict[k] = v
+            else:
+                dep_dict["version"] = value
+            line_number += 1
+            pack_dict["deps"].append(dep_dict)
         
     if pack_lines[line_number] == "[package.extras]":
-        pass
+        line_number += 1
+        pack_dict["optional_deps"] = []
+        while line_number < len(pack_lines):
+            line = pack_lines[line_number]
+            (_,value) = re.split(r'\s=\s',line.strip(),maxsplit = 1) #Split and unpack on regex expression
+            profile_deps = value[1:-1].split(', ')
+            for pd in profile_deps:
+                # "sphinx (>=1.6.5,!=1.8.0,!=3.1.0,!=3.1.1)", "sphinx-rtd-theme"
+                dep_ver = pd[1:-1].split(' ')
+                op_dep_dict = {'name':dep_ver[0]}
+                if len(dep_ver) > 1:
+                    op_dep_dict['version'] = dep_ver[1]                
+                pack_dict["optional_deps"].append(op_dep_dict)
+            line_number += 1
 
     return pack_dict
 

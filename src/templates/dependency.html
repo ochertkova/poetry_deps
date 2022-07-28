@@ -24,7 +24,10 @@
       {% for d in dep_to_render['deps'] %}
       <tr>
         <td>
-        {{d['name']}}
+        Name:{{d['name']}}
+        </td>
+        <td>
+        Version:{{d['version']}}
         </td>
       </tr>
       {% endfor %}
@@ -36,7 +39,10 @@
       {% for d in dep_to_render['optional_deps'] %}
       <tr>
         <td>
-        {{d}}
+        Name {{d['name']}}
+        </td>
+        <td>
+        Version:{{d['version']}}
         </td>
       </tr>
       {% endfor %}
