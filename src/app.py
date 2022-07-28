@@ -15,6 +15,7 @@ def dep_info(name):
     try:
         dep_in_store = store.find_dep_by_name(name)
         print("dep in store found")
+        print(dep_in_store)
         #print(dep_in_store.keys())
         return render_template("dependency.html", dep_to_render=dep_in_store)
     except:

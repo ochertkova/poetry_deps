@@ -8,7 +8,7 @@ def process_raw_data(raw_data):
         elem['rev_deps'] = find_rev_deps(elem['name'])
     
     data_sorted = sorted(raw_data, key=lambda d: d['name'])
-    return data_sorted #???list of dictionaries
+    return data_sorted #???list of dictionaries 
 
 deps = process_raw_data(get_test_data()) #map object
 

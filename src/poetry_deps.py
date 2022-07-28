@@ -24,29 +24,25 @@ def parse_packages(lines):
             if pack_str == "": #Skip first empty list
                 continue
             pack_list_str.append(pack_str)
+            pack_str = ""
             continue
-            #if line.strip() == "[package.dependencies]" or line.strip() == "[package.extras]":
-                #continue
-            #if line.strip() == "":
-                #continue
+        if line.strip() == "": # dont include empty lines in package def lines
+           continue
         pack_str = pack_str + line
-    pack_list_str.append(pack_str) #Append the last package
-        #print(pack_str)
-           # try:
-            #    (key,value) = re.split(r'\s=\s',line.strip(),maxsplit = 1) #Split and unpack on regex expression
-            #    pack_dict[key] = value
-           # except:
-                #continue
-            #print(pack_dict)
-            #print(pack_count)
+    pack_list_str.append(pack_str) #Append the last package)
         
     return pack_list_str
 
 def parse_package(pack_str):
+    print(pack_str)
     pack_lines = pack_str.splitlines()
     pack_dict = {}
-    for line in pack_lines:
+    line_number = 0
+    while line_number < len(pack_lines):
+        line = pack_lines[line_number]
         try:
+            if line == "[package.dependencies]" or pack_str[line_number] == "[package.extras]":
+                break
             (key,value) = re.split(r'\s=\s',line.strip(),maxsplit = 1) #Split and unpack on regex expression
             if key == "optional": #  Value is a boolean
                 value = value.strip().lower() == "true"
@@ -56,15 +52,28 @@ def parse_package(pack_str):
                     value = re_obj.group(1)
             pack_dict[key] = value
         except:
-            continue 
+            break
+        line_number += 1
+
+    print("set deps")
+    print(line_number)
+    print(pack_lines[line_number])
+    
+    if pack_lines[line_number] == "[package.dependencies]":
+        print("set deps")
+        pack_dict["deps"] = [{"name":"shtoto"}]
+        
+    if pack_lines[line_number] == "[package.extras]":
+        pass
+
     return pack_dict
 
 def main():
     pack_list_str = get_pack_list(text_sample)
     for pack in pack_list_str:
-        parse_package(pack)
         print(parse_package(pack))
 
     #print(get_pack_list(text_sample))
 
-main()
+if __name__ == "__main__":
+    main()
