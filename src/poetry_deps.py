@@ -12,6 +12,9 @@ def get_pack_list(text_sample):
     with open(text_sample, mode='r',encoding='UTF-8') as file:
         return parse_packages(file.readlines())
 
+def get_test_data():
+    return list(map(parse_package, get_pack_list(text_sample)))
+
 def parse_packages(lines):
     pack_list_str = []
     pack_str = ''

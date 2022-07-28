@@ -1,6 +1,7 @@
 from distutils.log import error
 import os
 from flask import *
+
 import store
 
 app = Flask(__name__)
