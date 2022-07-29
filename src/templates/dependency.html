@@ -5,26 +5,35 @@
 {% endblock %}
 
 {% block content %}
-<h2>Dependency</h2>
+<h2>Package dependancies</h2>
 
 <table>
   <tr>
       <td>
-        Name: {{dep_to_render['name']}}
+        <h3>Package name: {{dep_to_render['name']}}</h3>
       </td>
   </tr>
   <tr>
       <td>
         Package description: {{dep_to_render['description']}}
       </td>
-  </tr>  
+  </tr>
+  <tr>
+      <td>
+        Package version: {{dep_to_render['version']}}
+      </td>
+  </tr> 
   <tr>
     <td>
-      Dependancies: 
+      <h3>Dependancies:</h3> 
       {% for d in dep_to_render['deps'] %}
       <tr>
         <td>
-        Name:{{d['name']}}
+        {% if d['show_link'] == True %}
+          <a href="/{{d['name']}}">{{d['name']}}</a>
+        {% else %}
+        {{d['name']}}
+        {% endif %}
         </td>
         <td>
         Version:{{d['version']}}
@@ -35,11 +44,11 @@
   </tr>
   <tr>
     <td>
-      Optional dependancies:
+      <h3>Optional dependancies:</h3>
       {% for d in dep_to_render['optional_deps'] %}
       <tr>
         <td>
-        Name {{d['name']}}
+        {{d['name']}}
         </td>
         <td>
         Version:{{d['version']}}
@@ -51,7 +60,7 @@
   </tr>
   <tr>
     <td>
-      Reverse dependancies: {{dep_to_render['rev_deps']}}
+      <h3>Reverse dependancies: {{dep_to_render['rev_deps']}}</h3>
     </td>
   </tr>
 </table>

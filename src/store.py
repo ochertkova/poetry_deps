@@ -3,9 +3,15 @@ def find_rev_deps(name):
     return [1, 2, 3]
  
 def process_raw_data(raw_data):
-    """Sort deps by name, add reverse dependancies to dictionary"""
-    for elem in raw_data:
-        elem['rev_deps'] = find_rev_deps(elem['name'])
+    """Add show_link flag, sort deps by name, add reverse dependancies to dictionary"""
+    pack_names = list(map(lambda p: p['name'], raw_data))
+    for pack in raw_data:
+        pack['rev_deps'] = find_rev_deps(pack['name'])
+        for p_dep in pack['deps']:
+            if p_dep['name'] in pack_names:
+                p_dep['show_link'] = True
+            else:
+                p_dep['show_link'] = False
     
     data_sorted = sorted(raw_data, key=lambda d: d['name'])
     return data_sorted #???list of dictionaries 

@@ -3,7 +3,7 @@
 import re
 import os
 
-text_sample = "sample_mini.txt"
+text_sample = "poetry_sample.txt"
 def get_pack_list(text_sample):
     """Get package information from sample.lock file into a list of strings"""
     #package_pattern = re.search(r"\((\w*)\)", text_sample)
@@ -22,6 +22,8 @@ def parse_packages(lines):
     pack_str = ''
 
     for line in lines:
+        if line.strip() == """[metadata]""":
+            break
         if line.strip() == """[[package]]""":
             if pack_str == "": #Skip first empty list
                 continue
@@ -55,11 +57,11 @@ def parse_package(pack_str):
         except:
             break
         line_number += 1
+    print(line_number)
     
-    if pack_lines[line_number] == "[package.dependencies]":
-        pack_dict["deps"] = []
+    pack_dict["deps"] = []
+    if line_number < len(pack_lines) and pack_lines[line_number] == "[package.dependencies]":
         line_number += 1
-
         while line_number < len(pack_lines):
             line = pack_lines[line_number]
             if line == "[package.extras]":
@@ -78,10 +80,10 @@ def parse_package(pack_str):
                 dep_dict["version"] = value
             line_number += 1
             pack_dict["deps"].append(dep_dict)
-        
-    if pack_lines[line_number] == "[package.extras]":
+   
+    pack_dict["optional_deps"] = []
+    if line_number < len(pack_lines) and pack_lines[line_number] == "[package.extras]":
         line_number += 1
-        pack_dict["optional_deps"] = []
         while line_number < len(pack_lines):
             line = pack_lines[line_number]
             (_,value) = re.split(r'\s=\s',line.strip(),maxsplit = 1) #Split and unpack on regex expression

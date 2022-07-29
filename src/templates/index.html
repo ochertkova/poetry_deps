@@ -1,14 +1,12 @@
 {% extends "layout.html" %} {% block content %}
 
-<h2>Index</h2>
-
-Terve Olga!
+<h2>Package list</h2>
 
 <table>
 {% for dep in deps %}
 <tr>
     <td>
-    <a href="/{{dep}}">dep name is {{dep}}</a>
+    <a href="/{{dep}}">{{dep}}</a>
     </td>
 </tr>
 {% endfor %}
