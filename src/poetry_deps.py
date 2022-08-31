@@ -14,7 +14,6 @@ def get_pack_list(text_sample):
 
 def get_test_data():
     retval = list(map(parse_package, get_pack_list(text_sample)))
-    print("Got test data")
     return retval
 
 def parse_packages(lines):
@@ -57,7 +56,7 @@ def parse_package(pack_str):
         except:
             break
         line_number += 1
-    print(line_number)
+   
     
     pack_dict["deps"] = []
     if line_number < len(pack_lines) and pack_lines[line_number] == "[package.dependencies]":
@@ -96,7 +95,8 @@ def parse_package(pack_str):
                     op_dep_dict['version'] = dep_ver[1]                
                 pack_dict["optional_deps"].append(op_dep_dict)
             line_number += 1
-
+    #print(pack_dict)
+    pack_dict["rev_deps"] = []
     return pack_dict
 
 def main():
