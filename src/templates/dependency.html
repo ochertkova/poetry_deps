@@ -60,7 +60,15 @@
   </tr>
   <tr>
     <td>
-      <h3>Reverse dependancies: {{dep_to_render['rev_deps']}}</h3>
+      <h3>Reverse dependancies: </h3>
+      {% for d in dep_to_render['rev_deps'] %}
+      <tr>
+        <td>
+          <a href="/{{d}}">{{d}}</a>
+      
+        </td>
+      </tr>
+      {% endfor %}
     </td>
   </tr>
 </table>
