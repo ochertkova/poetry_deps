@@ -6,3 +6,5 @@ I was not able to meet the deadline but decided to finish the project anyway.
 
 Still work-in-progress though.
 
+Basic functionality is deployed at:
+https://poetrydeps.herokuapp.com/
