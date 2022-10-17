@@ -3,13 +3,13 @@
 <h2>Package list</h2>
 
 <table>
-{% for dep in deps %}
-<tr>
-    <td>
-    <a href="/{{dep}}">{{dep}}</a>
-    </td>
-</tr>
-{% endfor %}
+    {% for dep in deps %}
+    <tr>
+        <td>
+            <a href="/{{dep}}">{{dep}}</a>
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 
 <br>

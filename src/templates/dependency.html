@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block css %}
-  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -9,67 +9,68 @@
 
 <table>
   <tr>
-      <td>
-        <h3>Package name: {{dep_to_render['name']}}</h3>
-      </td>
+    <td>
+      <h3>Package name: {{dep_to_render['name']}}</h3>
+    </td>
   </tr>
-  <tr>
-      <td>
-        Package description: {{dep_to_render['description']}}
-      </td>
-  </tr>
-  <tr>
-      <td>
-        Package version: {{dep_to_render['version']}}
-      </td>
-  </tr> 
   <tr>
     <td>
-      <h3>Dependancies:</h3> 
-      {% for d in dep_to_render['deps'] %}
-      <tr>
-        <td>
-        {% if d['show_link'] == True %}
-          <a href="/{{d['name']}}">{{d['name']}}</a>
-        {% else %}
-        {{d['name']}}
-        {% endif %}
-        </td>
-        <td>
-        Version:{{d['version']}}
-        </td>
-      </tr>
-      {% endfor %}
+      Package description: {{dep_to_render['description']}}
     </td>
+  </tr>
+  <tr>
+    <td>
+      Package version: {{dep_to_render['version']}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <h3>Dependancies:</h3>
+      {% for d in dep_to_render['deps'] %}
+  <tr>
+    <td>
+      {% if d['show_link'] == True %}
+      <a href="/{{d['name']}}">{{d['name']}}</a>
+      {% else %}
+      {{d['name']}}
+      {% endif %}
+    </td>
+    <td>
+      Version:{{d['version']}}
+    </td>
+  </tr>
+  {% endfor %}
+  </td>
   </tr>
   <tr>
     <td>
       <h3>Optional dependancies:</h3>
       {% for d in dep_to_render['optional_deps'] %}
-      <tr>
-        <td>
-        {{d['name']}}
-        </td>
-        <td>
-        Version:{{d['version']}}
-        </td>
-      </tr>
-      {% endfor %}
-
+  <tr>
+    <td>
+      {{d['name']}}
     </td>
+    <td>
+      Version:{{d['version']}}
+    </td>
+  </tr>
+  {% endfor %}
+
+  </td>
   </tr>
   <tr>
     <td>
       <h3>Reverse dependancies: </h3>
       {% for d in dep_to_render['rev_deps'] %}
-      <tr>
-        <td>
-          <a href="/{{d}}">{{d}}</a>
-      
-        </td>
-      </tr>
-      {% endfor %}
+  <tr>
+    <td>
+      <a href="/{{d}}">{{d}}</a>
+
     </td>
+  </tr>
+  {% endfor %}
+  </td>
   </tr>
 </table>
 
